@@ -26,6 +26,11 @@ class DateService extends EventEmitter {
         // caso emitir el evento day-changed
         this._date = newDate;
         this.emit('second-changed', this._date);
+        if(this._date === newDate){
+        return true;
+        }
+
     }
 }
 export const dateService = new DateService();
+export {EventEmitter};

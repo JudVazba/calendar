@@ -1,5 +1,6 @@
 import { BaseElement } from './core/base-element.js';
-import './calendar-clock.js';
+import './core/calendar-clock.js';
+import './core/calendar-date.js';
 // TODO: importar calendar-date
 
 class XCalendarHeader extends BaseElement {
