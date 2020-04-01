@@ -1,9 +1,35 @@
 import { BaseElement } from './core/base-element.js';
 import { dateService } from './date-service.js';
+import { DateFormatter } from './date-formatter.js';
+
 class XCalendarClock extends BaseElement {
-    render(){
+    constructor() {
+        super();
+        this._onSecondChanged = this._onSecondChanged.bind(this);
+    }
+    get $text() {
+        if(!this._$text) {
+            this._$text = this.shadowRoot.getElementById('text');
+        }
+        return this._$text;
+    }
+    get timeString() {
+        return DateFormatter.timeString(dateService.date);
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        dateService.on('second-changed', this._onSecondChanged);
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        dateService.off('second-changed', this._onSecondChanged);
+    }
+    _onSecondChanged() {
+        this.$text.textContent = this.timeString;
+    }
+    render() {
         return `
-            <p>${dateService.currentTime}</p>
+            <p id="text">${this.timeString}</p>
         `
     }
 }
